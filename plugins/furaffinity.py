@@ -31,5 +31,5 @@ def group(message, sender, response):
    fa_links = get_fa_links(message)
    for link in fa_links:
        if (yield from is_nsfw(link)):
-           yield from response('↑ ￼ NSFW Warning! This picture is tagged as "mature" or "adult" - please click at your own discretion!')
+           yield from response('↑\u2757 NSFW Warning! This picture is tagged as "mature" or "adult" - please click at your own discretion!')
            break

@@ -5,6 +5,7 @@ from aiohttp import web
 from collections import namedtuple
 from functools import partial
 import plugins
+import json
 
 try:
     from config import *
@@ -15,6 +16,8 @@ User = namedtuple("User", ["id", "firstname", "lastname", "username"])
 
 @asyncio.coroutine
 def send_msg(to, msg):
+    if not isinstance(msg, bytearray):
+        msg = msg.encode('utf-8')
     yield from aiohttp.request('get', "https://api.telegram.org/bot%s/sendMessage" % API_KEY, params={'chat_id': to, 'text': msg})
 
 @asyncio.coroutine
@@ -39,10 +42,7 @@ def handle(request):
     message = data.get('text', '').strip()
 
     for plugin in plugins.plugins:
-        try:
-            plugin.handle_event(message, sender, partial(send_msg, reply_id))
-        except:
-            continue
+        yield from plugin.handle_event(message, sender, is_group_chat, partial(send_msg, reply_id))
 
     return web.Response(body="ok".encode('utf-8'))
 
@@ -53,7 +53,7 @@ def init(loop):
     app.router.add_route('POST', '/', handle)
     srv = yield from loop.create_server(app.make_handler(),
             ADDRESS, PORT)
-    print("Server started at http://%s:%d", ADDRESS, PORT)
+    print("Server started at http://%s:%d" % (ADDRESS, PORT))
     return srv
 
 if __name__ == "__main__":

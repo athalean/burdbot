@@ -15,7 +15,7 @@ def init(loop):
     while True:
         line = input("> ")
         for plugin in plugins.plugins:
-            yield from plugin.handle_event(line, User("$User", "$Lastname", "0") , is_group=True, callback=send_msg)
+            yield from plugin.handle_event(line, User(0, "$User", "$Lastname", "@username") , is_group=True, callback=send_msg)
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(init(loop))
