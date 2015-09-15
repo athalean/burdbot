@@ -13,6 +13,11 @@ plugin_furaffinity = BurdbotPlugin("FurAffinity helper", author="Athalean", desc
 def trigger(message):
     return "furaffinity.net" in message
 
+@plugin_furaffinity.helplines
+@coroutine
+def help():
+    return []
+
 @coroutine
 def is_nsfw(fa_link):
     response = yield from get(fa_link)

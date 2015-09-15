@@ -20,6 +20,11 @@ Burdbot is a silly but sometimes helpful Telegram bot.
     def trigger(text):
         """Return True here to indicate that your plugin could want to react to this line"""
 
+    @myplugin.helplines
+    @coroutine
+    def help_lines():
+        return ["/command1 - Do something awesome", "/command2 - Do something even more awesome"]
+
     @myplugin.group_chat
     @coroutine
     def reaction(text, sender, respond):

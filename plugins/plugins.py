@@ -8,7 +8,7 @@ class BurdbotPlugin:
         
         self.trigger_func = None
         self.groupchat_func = None
-
+        self.helptext_func = None
 
     def trigger(self, f):
         """Sets a callback coroutine that every incoming line is checked against. If
@@ -16,6 +16,11 @@ class BurdbotPlugin:
         plugin. It should avoid doing any complicated parsing as it is executed for every
         line received."""
         self.trigger_func = f
+
+    def helplines(self, f):
+        """Sets a callback coroutine that return a list of strings. This is used
+        to construct the /help command output"""
+        self.helptext_func = f
 
     def group_chat(self, f):
         """Sets a callback coroutine that is being called on an incoming group chat message

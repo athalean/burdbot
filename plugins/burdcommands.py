@@ -19,9 +19,18 @@ commands = {
 @burdcommands.trigger
 @coroutine
 def trigger(text):
+    text = text.lower()
     for command in commands.keys():
         if text.startswith(command):
             return True
+
+@burdcommands.helplines
+@coroutine
+def helptext():
+    return [
+        '"%s" or "%s <name>"' % (command, command)
+        for command in commands.keys()
+    ] 
 
 @burdcommands.group_chat
 @coroutine
@@ -34,8 +43,8 @@ def group(text, sender, response):
         context["argument"] = argument
     context.setdefault("argument", sender.firstname)
 
-    if command in commands:
-        reaction = commands[command]
+    if command.lower() in commands:
+        reaction = commands[command.lower()]
         if isinstance(command, str):
             yield from response(reaction.format(**context))
             return
