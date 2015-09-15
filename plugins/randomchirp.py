@@ -12,4 +12,4 @@ def trigger(text):
 @randomchirp.group_chat
 @coroutine
 def reaction(text, sender, respond):
-    yield from respond(["chirp", "ovo"])
+    yield from respond(choice(["chirp", "ovo"]))
