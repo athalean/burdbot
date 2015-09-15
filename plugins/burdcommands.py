@@ -2,16 +2,18 @@ import re
 from .plugins import BurdbotPlugin
 from asyncio import coroutine
 
-commands_re = re.compile(r"^(/..*?)\b")
+commands_re = re.compile(r"^(/..*?)( +(\w+))?\b")
 
-burdcommands = BurdbotPlugin("Burd commands", author="Athalean", description="A few silly commands")
+burdcommands = BurdbotPlugin("Burd commands", author="Athalean", description="A few silly roleplaying commands")
 
 # all attributes of "User" work here, mainly firstname and lastname
+# as well as "argument" which is either the firstname of the user
+# or the argument they supplied.
 commands = {
-        "/preen": "*preens {firstname} thoroughly*",
-        "/cookie": "*tosses a cookie to {firstname}*",
-        "/coffee": "*opens {firstname}'s beak for a hot cup of coffee!*",
-        "/tea": "opens {firstname}'s beak for a hot cup of tea!*"
+        "/preen": "*preens {argument} thoroughly*",
+        "/cookie": "*tosses a cookie to {argument}*",
+        "/coffee": "*opens {argument}'s beak for a hot cup of coffee!*",
+        "/tea": "opens {argument}'s beak for a hot cup of tea!*"
 }
 
 @burdcommands.trigger
@@ -24,10 +26,17 @@ def trigger(text):
 @burdcommands.group_chat
 @coroutine
 def group(text, sender, response):
-    command = commands_re.match(text).group(1)
+    match = commands_re.match(text)
+    command, argument = match.group(1), match.group(3)
+
+    context = sender._asdict()
+    if argument:
+        context["argument"] = argument
+    context.setdefault("argument", sender.firstname)
+
     if command in commands:
         reaction = commands[command]
         if isinstance(command, str):
-            yield from response(reaction.format(**sender._asdict()))
+            yield from response(reaction.format(**context))
             return
         yield from reponse((yield from reaction(text, sender)))
