@@ -42,7 +42,10 @@ def handle(request):
     message = data.get('text', '').strip()
 
     for plugin in plugins.plugins:
-        yield from plugin.handle_event(message, sender, is_group_chat, partial(send_msg, reply_id))
+        try:
+            yield from plugin.handle_event(message, sender, is_group_chat, partial(send_msg, reply_id))
+        except:
+            continue 
 
     return web.Response(body="ok".encode('utf-8'))
 
