@@ -2,6 +2,11 @@
 
 Burdbot is a silly but sometimes helpful Telegram bot.
 
+## Dependencies
+
+* **Python 3.4+**
+* aiohttp
+
 
 ## Plugin boilerplate
 
