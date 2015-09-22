@@ -13,7 +13,14 @@ commands = {
         "/preen": "*preens {argument} thoroughly*",
         "/cookie": "*tosses a cookie to {argument}*",
         "/coffee": "*opens {argument}'s beak for a hot cup of coffee!*",
-        "/tea": "opens {argument}'s beak for a hot cup of tea!*"
+        "/tea": "*opens {argument}'s beak for a hot cup of tea!*",
+        "/pun": "*plays a rimshot for {argument}'s horrible pun and shakes the pun jar*",
+        "/breakfast": "*feeds {argument} a sandwich, a cookie and a choice of tea or coffee*",
+        "/fish": "*tosses a fish to {argument}*",
+        "/hug": "*hugs {argument} tight* ^v^",
+        "/peck": "*pecks at {argument} for attention*",
+        "/floof": "*floofs up {argument}*",
+        "/energydrink": "*opens {argument}'s beak for an ice cold energy drink*",
 }
 
 @burdcommands.trigger
